@@ -4,7 +4,6 @@
 #include <iostream>
 #include <random>
 #include <sstream>
-#include <stdexcept>
 #include <vector>
 
 class Timer {
@@ -19,14 +18,14 @@ class Timer {
         auto end = time_point_cast<microseconds>(end_timepoint).time_since_epoch().count();
 
         auto duration = end - start;
-        return duration * 1;
+        return duration;
     }
 
   private:
     std::chrono::time_point<std::chrono::high_resolution_clock> start_timepoint;
 };
 
-std::string time_format(double ms);
+std::string time_format(long double ms);
 void test_sort(void (*sort_func)(std::vector<int> &), const std::vector<int> &vec,
                const std::string &sort_name);
 void test_std_sort(const std::vector<int> &vec, const std::string &sort_name);
@@ -103,12 +102,13 @@ void test_std_sort(const std::vector<int> &vec, const std::string &sort_name) {
     std::cout << sort_name << ":\t" << time_format(time) << '\n';
 }
 
-std::string time_format(double microsecs) {
+std::string time_format(long double microsecs) {
     long double time = microsecs;
     std::string return_val;
     std::stringstream strs;
 
     // bubble sort exists...
+    // I could rework this but it works fine
     if (microsecs >= 3600000000) {
         time = microsecs / 3600000000;
         strs << time;
