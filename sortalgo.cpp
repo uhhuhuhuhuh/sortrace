@@ -1,6 +1,8 @@
 #include "sortalgo.hpp"
+#include <bit>
 #include <cmath>
 #include <cstdint>
+#include <iostream>
 
 namespace sort {
 inline void swap(int &a, int &b) {
@@ -173,8 +175,8 @@ size_t median_of_three_helper(std::vector<int> &vec, size_t low, size_t high) {
     return mid;
 }
 size_t partition_helper(std::vector<int> &vec, size_t low, size_t high) {
-    size_t i = low - 1;
-    size_t j = high + 1;
+    size_t i = low;
+    size_t j = high;
     int pivot = vec[median_of_three_helper(vec, low, high)];
 
     while (true) {
@@ -240,7 +242,7 @@ void heap_sort(std::vector<int> &vec) {
     heap_sort(vec, 0, vec.size() - 1);
 }
 
-void intro_sort_helper(std::vector<int> &vec, uint64_t depth, size_t low, size_t high) {
+void intro_sort_helper(std::vector<int> &vec, uint8_t depth, size_t low, size_t high) {
     if (high - low <= 16) {
         insertion_sort(vec, low, high);
         return;
@@ -254,7 +256,7 @@ void intro_sort_helper(std::vector<int> &vec, uint64_t depth, size_t low, size_t
     intro_sort_helper(vec, depth - 1, pi + 1, high);
 }
 void intro_sort(std::vector<int> &vec) {
-    uint64_t depth = std::floor(std::log2(vec.size())) * 2;
+    uint8_t depth = (std::bit_width(vec.size()) - 1) * 2;
     intro_sort_helper(vec, depth, 0, vec.size() - 1);
 }
 

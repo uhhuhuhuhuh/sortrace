@@ -24,7 +24,7 @@ void quick_sort(std::vector<int> &vec);
 void heapify_helper(std::vector<int> &vec, size_t n, size_t i);
 void heap_sort(std::vector<int> &vec);
 
-void intro_sort_helper(std::vector<int> &vec, uint64_t depth, size_t low, size_t high);
+void intro_sort_helper(std::vector<int> &vec, uint8_t depth, size_t low, size_t high);
 void intro_sort(std::vector<int> &vec);
 
 void gnome_sort(std::vector<int> &vec);
