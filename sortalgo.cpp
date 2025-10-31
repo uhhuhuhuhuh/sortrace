@@ -1,8 +1,8 @@
 #include "sortalgo.hpp"
 #include <bit>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
-#include <iostream>
 
 namespace sort {
 inline void swap(int &a, int &b) {
@@ -106,22 +106,22 @@ void comb_sort(std::vector<int> &vec) {
 }
 
 void merge_helper(std::vector<int> &vec, size_t left, size_t mid, size_t right) {
-    size_t nL = mid - left + 1;
-    size_t nR = right - mid;
+    size_t n_l = mid - left + 1;
+    size_t n_r = right - mid;
 
-    int arr_l[nL];
-    int arr_r[nR];
+    int arr_l[n_l];
+    int arr_r[n_r];
 
-    for (size_t i = 0; i < nL; i++)
+    for (size_t i = 0; i < n_l; i++)
         arr_l[i] = vec[left + i];
-    for (size_t i = 0; i < nR; i++)
+    for (size_t i = 0; i < n_r; i++)
         arr_r[i] = vec[mid + 1 + i];
 
     size_t i = 0;
     size_t j = 0;
     size_t k = left;
 
-    while (i < nL && j < nR) {
+    while (i < n_l && j < n_r) {
         if (arr_l[i] <= arr_r[j]) {
             vec[k] = arr_l[i];
             i++;
@@ -131,12 +131,12 @@ void merge_helper(std::vector<int> &vec, size_t left, size_t mid, size_t right) 
         }
         k++;
     }
-    while (i < nL) {
+    while (i < n_l) {
         vec[k] = arr_l[i];
         i++;
         k++;
     }
-    while (j < nR) {
+    while (j < n_r) {
         vec[k] = arr_r[j];
         j++;
         k++;
@@ -146,7 +146,7 @@ void merge_sort_helper(std::vector<int> &vec, size_t left, size_t right) {
     if (left >= right)
         return;
 
-    size_t mid = left + (right - left) / 2;
+    size_t mid = (right + left) / 2;
 
     merge_sort_helper(vec, left, mid);
     merge_sort_helper(vec, mid + 1, right);
@@ -174,7 +174,7 @@ size_t median_of_three_helper(std::vector<int> &vec, size_t low, size_t high) {
 
     return mid;
 }
-size_t partition_helper(std::vector<int> &vec, size_t low, size_t high) {
+size_t hoares_partition_helper(std::vector<int> &vec, size_t low, size_t high) {
     size_t i = low;
     size_t j = high;
     int pivot = vec[median_of_three_helper(vec, low, high)];
@@ -194,7 +194,7 @@ size_t partition_helper(std::vector<int> &vec, size_t low, size_t high) {
 }
 void quick_sort_helper(std::vector<int> &vec, size_t low, size_t high) {
     if (low < high) {
-        size_t pi = partition_helper(vec, low, high);
+        size_t pi = hoares_partition_helper(vec, low, high);
 
         quick_sort_helper(vec, low, pi);
         quick_sort_helper(vec, pi + 1, high);
@@ -251,11 +251,14 @@ void intro_sort_helper(std::vector<int> &vec, uint8_t depth, size_t low, size_t 
         heap_sort(vec, low, high);
         return;
     }
-    size_t pi = partition_helper(vec, low, high);
+    size_t pi = hoares_partition_helper(vec, low, high);
     intro_sort_helper(vec, depth - 1, low, pi);
     intro_sort_helper(vec, depth - 1, pi + 1, high);
 }
 void intro_sort(std::vector<int> &vec) {
+    if (vec.empty()) {
+        return;
+    }
     uint8_t depth = (std::bit_width(vec.size()) - 1) * 2;
     intro_sort_helper(vec, depth, 0, vec.size() - 1);
 }
