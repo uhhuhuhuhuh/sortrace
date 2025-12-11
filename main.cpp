@@ -26,8 +26,7 @@ class Timer {
 };
 
 std::string time_format(long double ms);
-void test_sort(void (*sort_func)(std::vector<int> &), const std::vector<int> &vec,
-               const std::string &sort_name);
+void test_sort(void (*sort_func)(std::vector<int> &), const std::vector<int> &vec, const std::string &sort_name);
 void test_std_sort(const std::vector<int> &vec, const std::string &sort_name);
 
 int main() {
@@ -56,18 +55,17 @@ int main() {
     test_sort(sort::intro_sort, random_nums, "Intro Sort");
     test_sort(sort::quick_sort, random_nums, "Quick Sort");
     test_sort(sort::merge_sort, random_nums, "Merge Sort");
-    test_sort(sort::comb_sort, random_nums, "Comb Sort");
     test_sort(sort::heap_sort, random_nums, "Heap Sort");
+    test_sort(sort::comb_sort, random_nums, "Comb Sort");
     test_sort(sort::insertion_sort, random_nums, "Insertion Sort");
     test_sort(sort::selection_sort, random_nums, "Selection Sort");
     test_sort(sort::odd_even_sort, random_nums, "Odd Even Sort");
     test_sort(sort::gnome_sort, random_nums, "Gnome Sort");
-    test_sort(sort::cocktail_shaker_sort, random_nums, "C.S. Sort");
+    test_sort(sort::cocktail_shaker_sort, random_nums, "Cocktail Shaker Sort");
     test_sort(sort::bubble_sort, random_nums, "Bubble Sort");
 }
 
-void test_sort(void (*sort_func)(std::vector<int> &), const std::vector<int> &vec,
-               const std::string &sort_name) {
+void test_sort(void (*sort_func)(std::vector<int> &), const std::vector<int> &vec, const std::string &sort_name) {
     std::vector<int> vec_copy;
     vec_copy.reserve(vec.size());
     for (int i : vec) {
@@ -84,7 +82,7 @@ void test_sort(void (*sort_func)(std::vector<int> &), const std::vector<int> &ve
     if (!std::is_sorted(vec_copy.begin(), vec_copy.end())) {
         throw std::invalid_argument("sort_func: \"" + sort_name + "\" does not sort properly");
     }
-    std::cout << sort_name << ":\t" << time_format(time) << '\n';
+    std::cout << std::setfill(' ') << std::left << std::setw(40) << sort_name << time_format(time) << '\n';
 }
 void test_std_sort(const std::vector<int> &vec, const std::string &sort_name) {
     std::vector<int> vec_copy;
@@ -99,7 +97,7 @@ void test_std_sort(const std::vector<int> &vec, const std::string &sort_name) {
     timer.start();
     std::sort(vec_copy.begin(), vec_copy.end());
     time = timer.stop();
-    std::cout << sort_name << ":\t" << time_format(time) << '\n';
+    std::cout << std::setfill(' ') << std::left << std::setw(40) << sort_name << time_format(time) << '\n';
 }
 
 std::string time_format(long double microsecs) {
